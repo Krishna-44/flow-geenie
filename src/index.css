@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 243 75% 59%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 243 75% 59%;
+
+    --radius: 0.625rem;
+
+    /* AutoFlow custom tokens */
+    --node-trigger: 142 71% 45%;
+    --node-ai: 271 91% 65%;
+    --node-action: 243 75% 59%;
+
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 215 20% 65%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 243 75% 59%;
+
+    --surface-elevated: 0 0% 100%;
+    --gradient-primary: linear-gradient(135deg, hsl(243, 75%, 59%), hsl(271, 91%, 65%));
+    --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.06);
+    --shadow-elevated: 0 4px 16px rgba(15, 23, 42, 0.06);
+    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.08);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+    font-feature-settings: 'tnum';
+  }
+}
+
+@layer components {
+  .surface-card {
+    @apply bg-card rounded-xl border border-border;
+    box-shadow: var(--shadow-card);
+  }
+
+  .surface-elevated {
+    @apply bg-card rounded-xl border border-border;
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .surface-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .node-trigger {
+    @apply border-2;
+    border-color: hsl(var(--node-trigger));
+    background: hsl(142, 71%, 45%, 0.06);
+  }
+
+  .node-ai {
+    @apply border-2;
+    border-color: hsl(var(--node-ai));
+    background: hsl(271, 91%, 65%, 0.06);
+  }
+
+  .node-action {
+    @apply border-2;
+    border-color: hsl(var(--node-action));
+    background: hsl(243, 75%, 59%, 0.06);
+  }
+
+  .btn-press {
+    @apply transition-transform duration-75;
+  }
+  .btn-press:active {
+    transform: scale(0.98);
+  }
+}
