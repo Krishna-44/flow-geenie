@@ -3,8 +3,10 @@ import type { NextPageWithLayout } from "../_app";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { getTemplates, TEMPLATE_CATEGORIES, type TemplateCategory } from "@/services/database/mockData";
+import { useQuery } from "@tanstack/react-query";
+import type { TemplateCategory } from "@/services/database/mockData";
 import type { Template } from "@/types/workflow";
+import type { WorkflowDefinition } from "@/types/workflow";
 import { Mail, Share2, FileText, Brain, Search, Briefcase, Zap, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,9 +29,44 @@ const categoryColors: Record<string, string> = {
   Business: "bg-blue-50 text-blue-600",
 };
 
+const TEMPLATE_CATEGORIES: TemplateCategory[] = ["Email", "Social Media", "Productivity", "Business"];
+
 const TemplatesPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const templates = getTemplates();
+  const { data } = useQuery({
+    queryKey: ["templates"],
+    queryFn: async (): Promise<{
+      templates: Array<{
+        id: string;
+        name: string;
+        description: string | null;
+        category: string;
+        template_json: WorkflowDefinition;
+      }>;
+    }> => {
+      const res = await fetch("/api/templates");
+      if (!res.ok) throw new Error(await res.text());
+      return (await res.json()) as {
+        templates: Array<{
+          id: string;
+          name: string;
+          description: string | null;
+          category: string;
+          template_json: WorkflowDefinition;
+        }>;
+      };
+    },
+  });
+
+  const templates: Template[] = useMemo(() => {
+    return (data?.templates ?? []).map((t) => ({
+      id: t.id,
+      name: t.name,
+      description: t.description ?? "",
+      category: t.category,
+      template_json: t.template_json,
+    }));
+  }, [data?.templates]);
 
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<TemplateCategory | "All">("All");

@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   let query = supabase
     .from("marketplace_workflows")
-    .select("id, workflow_id, creator_id, title, description, category, installs, rating, created_at")
+    .select("id, title, description, category, installs, rating, created_at")
     .order("installs", { ascending: false });
 
   if (category && category !== "All") {
